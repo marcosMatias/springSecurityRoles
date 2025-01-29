@@ -1,4 +1,4 @@
-package br.com.company.model.dto;
+package br.com.company.auth.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,5 +1,6 @@
-package br.com.company.model;
+package br.com.company.auth.model;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,8 +32,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class UserModel implements UserDetails{
-	
-	private static final long serialVersionUID = 1L;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_S")

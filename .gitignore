@@ -1,8 +1,14 @@
-HELP.md
-target/
+/target/*
+/log/*
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!Library/nao_ignorar Library/
+.env
+
+*.log
+*.tar.gz
+*.gz
 
 ### STS ###
 .apt_generated

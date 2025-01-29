@@ -5,8 +5,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
@@ -16,52 +14,59 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import br.com.company.exception.ForbiddenException;
-import br.com.company.model.UserModel;
-import br.com.company.model.dto.AuthenticateResponseDto;
-import br.com.company.service.UtilService;
+import br.com.company.auth.model.UserModel;
+import br.com.company.auth.model.dto.AuthenticateResponseDto;
+import br.com.company.exception.InvalidJwtException;
+import br.com.company.service.util.UtilService;
+import lombok.extern.slf4j.Slf4j;
+
 
 
 
 
 @Service
+@Slf4j
 public class TokenConfigService {
 	
 	
-	private static final String ISSUER = "neo-api";
-	@Value("${neo-api.security.token.secret}")
+	private static final String ISSUER = "spring-roles-api";
+	@Value("$spring-roles-api.security.token.secret}")
 	private String secret;
-	@Autowired
-	private UtilService utilService;
+private final UtilService utilService;
 	
+	public TokenConfigService(UtilService utilService) {
+		this.utilService = utilService;
+	}
+
 	public AuthenticateResponseDto gerarTokenService(UserModel usuario) {
 
 		return decodificarTokenJwtService(gerarToken(usuario));
 	}
 	
-	public String getSubject(String tokenJWT)   {
-		
-		try {  
-			
-			  var algoritmo = Algorithm.HMAC256(secret);		
-			  return JWT.require(algoritmo)
-					  .withIssuer(ISSUER)
-			          .build()
-			          .verify(tokenJWT)
-			          .getSubject();
-			        
-			    
-			} 
-		catch (JWTVerificationException jwtEx) {
-			
-		    throw new ForbiddenException("Token JWT inválido ou expirado!");
 	
-		} catch (Exception ex) {
-		    throw new ForbiddenException("Erro ao verificar o token JWT: "+ ex.getMessage());
+	public String getSubject(String tokenJWT) {
+
+		try {
+
+			var algoritmo = Algorithm.HMAC256(secret);
+			return JWT.require(algoritmo)
+					  .withIssuer(ISSUER)
+					  .build()
+					  .verify(tokenJWT)
+					  .getSubject();
+
+		} catch (JWTVerificationException jwtEx) {
+			log.error("JWTVerificationException -> Token JWT inválido ou expirado!",jwtEx.getMessage());
+			
+			throw new InvalidJwtException("Token JWT inválido ou expirado!");
+			
+
 		}
 		
-			
-		}
+		
+
+
+	}
 	
 
 	
@@ -79,6 +84,7 @@ public class TokenConfigService {
 		        .withClaim("date", utilService.retornarLocalDateTimeNowString())		       
 		        .sign(algoritmo);
 		} catch (JWTCreationException exception){
+			log.error("JWTCreationException -> erro ao gerar token jwt",exception.getMessage());
 		   throw new RuntimeException("erro ao gerar token jwt",exception);
 		}
 		
@@ -123,11 +129,13 @@ public class TokenConfigService {
 			
 			
 		}catch (JWTVerificationException jwtEx) {
-		    throw new ForbiddenException("Retornar Informacaoes - Token JWT inválido ou expirado !");
+			log.error("JWTVerificationException -> Erro ao tentar decodificar o token!",jwtEx.getMessage());
+			 throw new InvalidJwtException("Erro ao tentar decodificar o token!");
 		}
 		
 		catch (Exception ex) {
-		    throw new ForbiddenException("Retornar Informacaoes - Erro ao verificar o token JWT: "+ ex.getMessage());
+			log.error("Exception -> Erro ao tentar decodificar o token!",ex.getMessage());
+			 throw new InvalidJwtException(" Erro ao tentar decodificar o token! "+ ex.getMessage());
 		}
 		
 	}
@@ -139,6 +147,5 @@ public class TokenConfigService {
 		return  LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00"));
 	}
 	
-
 	
 }

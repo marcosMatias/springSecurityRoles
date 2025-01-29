@@ -1,28 +1,34 @@
-package br.com.company.service;
+package br.com.company.auth.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import br.com.company.auth.model.UserModel;
+import br.com.company.auth.model.dto.AuthenticateRequestDto;
+import br.com.company.auth.model.dto.AuthenticateResponseDto;
 import br.com.company.config.security.TokenConfigService;
-import br.com.company.model.UserModel;
-import br.com.company.model.dto.AuthenticateRequestDto;
-import br.com.company.model.dto.AuthenticateResponseDto;
-
 
 
 @Service
 public class AuthenticateService {
 	
 	
-	@Autowired
-	private AuthenticationManager manager;
-	@Autowired
-	private TokenConfigService tokenService;
+	
+	private final AuthenticationManager manager;
+	private final TokenConfigService tokenService;
 
 
 	
+	public AuthenticateService(AuthenticationManager manager, TokenConfigService tokenService) {
+		
+		this.manager = manager;
+		this.tokenService = tokenService;
+	}
+
+
+	@Transactional(readOnly = true)
 	public AuthenticateResponseDto executeLoginService(AuthenticateRequestDto authenticateRecord) {
 
 		var authenticationtoken = new UsernamePasswordAuthenticationToken(authenticateRecord.username(),authenticateRecord.password());

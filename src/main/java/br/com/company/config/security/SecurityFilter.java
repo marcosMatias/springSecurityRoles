@@ -1,14 +1,15 @@
 package br.com.company.config.security;
 
 import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.company.repository.UserRepository;
+import br.com.company.auth.repository.UserRepository;
+import br.com.company.auth.service.MonitorAcessService;
+import br.com.company.service.util.UtilService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,35 +19,48 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityFilter extends OncePerRequestFilter {
 
 	
-	@Autowired
-	private TokenConfigService tokenService;
-	@Autowired
-	private UserRepository usuarioRepository;
+	private final TokenConfigService tokenService;
+	private final UserRepository usuarioRepository;
+	private final UtilService utilService;
+	private final MonitorAcessService monitorAcessService;
+
+
+	public SecurityFilter(TokenConfigService tokenService, UserRepository usuarioRepository, UtilService utilService,MonitorAcessService monitorAcessService) {
+
+		this.tokenService = tokenService;
+		this.usuarioRepository = usuarioRepository;
+		this.utilService = utilService;
+		this.monitorAcessService = monitorAcessService;
 	
+	}
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {			
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)	throws ServletException, IOException {		
 		
-	
-		var tokenJwt = recuperarToken(request);
 		
-			
-		if(tokenJwt!=null) {
-			 
-						 			
-			 var subject = tokenService.getSubject(tokenJwt);			
-			 var usuario = usuarioRepository.findByLogin(subject);						
-			 var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());	
-			 
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		try {
+			var tokenJwt = recuperarToken(request);
+
+			if (tokenJwt != null) {
+
+				var subject = tokenService.getSubject(tokenJwt);
+				var usuario = usuarioRepository.findByLoginIgnoreCase(subject);
+				var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+								
+				monitorAcessService.logAudit(usuario.getUsername(), request);
+			}
+
+			filterChain.doFilter(request, response);
+
+		} catch (Exception ex) {
+
+			utilService.sendErrorResponseFilter(HttpStatus.UNAUTHORIZED.value(), ex.getMessage().toString(),"uri=" + request.getRequestURI().toString(), response);
+
 		}
 		
-		
-		filterChain.doFilter(request, response);
-		
-		
-				
 	}
 
 	private String recuperarToken(HttpServletRequest request) {
@@ -60,7 +74,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 		return null;
 		
 	}
-	
 	
 	
 	

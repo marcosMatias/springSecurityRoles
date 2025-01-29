@@ -1,5 +1,6 @@
-package br.com.company.model;
+package br.com.company.auth.model;
 
+import java.io.Serial;
 import java.math.BigDecimal;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoleModel implements GrantedAuthority  {
 
-	private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name = "ID_PERMISSAO")

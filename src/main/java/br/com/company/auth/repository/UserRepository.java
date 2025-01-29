@@ -1,4 +1,4 @@
-package br.com.company.repository;
+package br.com.company.auth.repository;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import br.com.company.model.UserModel;
+import br.com.company.auth.model.UserModel;
 
 
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, BigDecimal>{
 	
-	UserDetails findByLogin(String login);
+	UserDetails findByLoginIgnoreCase(String login);
 
-	Optional<UserModel> findByEmail(String email);
+	Optional<UserModel> findByEmailIgnoreCase(String email);
 }

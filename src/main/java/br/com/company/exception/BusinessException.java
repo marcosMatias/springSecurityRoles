@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import lombok.Getter;
+
+import java.io.Serial;
 import lombok.Setter;
 
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -11,8 +13,9 @@ import lombok.Setter;
 @Setter
 public class BusinessException extends RuntimeException{
 
-	
-	private static final long serialVersionUID = 1L;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 	
 	public BusinessException(String msg) {
 		super(msg);
