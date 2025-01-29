@@ -827,3 +827,32 @@ Caused by: org.hibernate.HibernateException: Unable to determine Dialect without
 2025-01-29T16:31:18.563-03:00  INFO 38792 --- [springSecurityRoles] [RMI TCP Connection(6)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-01-29T16:31:18.565-03:00  INFO 38792 --- [springSecurityRoles] [RMI TCP Connection(6)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2025-01-29T16:31:18.592-03:00  INFO 38792 --- [springSecurityRoles] [RMI TCP Connection(6)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-01-29T16:58:16.937-03:00  INFO 38460 --- [springSecurityRoles] [main] .c.c.SpringSecurityRolesApplicationTests : Starting SpringSecurityRolesApplicationTests using Java 17.0.6 with PID 38460 (started by marcosvieira in D:\workspace-spring-tool-suite\springSecurityRoles)
+2025-01-29T16:58:16.938-03:00  INFO 38460 --- [springSecurityRoles] [main] .c.c.SpringSecurityRolesApplicationTests : No active profile set, falling back to 1 default profile: "default"
+2025-01-29T16:58:18.223-03:00  INFO 38460 --- [springSecurityRoles] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29T16:58:18.297-03:00  INFO 38460 --- [springSecurityRoles] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 4 JPA repository interfaces.
+2025-01-29T16:58:19.084-03:00  INFO 38460 --- [springSecurityRoles] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-01-29T16:58:19.566-03:00  INFO 38460 --- [springSecurityRoles] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@fee881
+2025-01-29T16:58:19.568-03:00  INFO 38460 --- [springSecurityRoles] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-01-29T16:58:19.648-03:00  INFO 38460 --- [springSecurityRoles] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29T16:58:19.731-03:00  INFO 38460 --- [springSecurityRoles] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-01-29T16:58:19.774-03:00  INFO 38460 --- [springSecurityRoles] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-01-29T16:58:20.101-03:00  INFO 38460 --- [springSecurityRoles] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29T16:58:20.576-03:00  INFO 38460 --- [springSecurityRoles] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 19.23
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-29T16:58:21.658-03:00  INFO 38460 --- [springSecurityRoles] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29T16:58:21.661-03:00  INFO 38460 --- [springSecurityRoles] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29T16:58:22.302-03:00  INFO 38460 --- [springSecurityRoles] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-01-29T16:58:22.579-03:00  WARN 38460 --- [springSecurityRoles] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-29T16:58:23.320-03:00  INFO 38460 --- [springSecurityRoles] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 9 endpoints beneath base path '/actuator'
+2025-01-29T16:58:24.164-03:00  INFO 38460 --- [springSecurityRoles] [main] .c.c.SpringSecurityRolesApplicationTests : Started SpringSecurityRolesApplicationTests in 7.478 seconds (process running for 8.733)
+2025-01-29T16:58:24.997-03:00  WARN 38460 --- [springSecurityRoles] [registrationTask1] d.c.b.a.c.r.ApplicationRegistrator       : Failed to register application as Application(name=springSecurityRoles, managementUrl=https://spring-dsv.cooxupe.com.br:8335/actuator, healthUrl=https://spring-dsv.cooxupe.com.br:8335/actuator/health, serviceUrl=https://spring-dsv.cooxupe.com.br:8335/) at spring-boot-admin ([https://marcosvieira.cooxupe.com.br:9092/instances]): I/O error on POST request for "https://marcosvieira.cooxupe.com.br:9092/instances": Request was interrupted: null. Further attempts are logged on DEBUG level
+2025-01-29T16:58:24.999-03:00  INFO 38460 --- [springSecurityRoles] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29T16:58:25.001-03:00  INFO 38460 --- [springSecurityRoles] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-01-29T16:58:25.027-03:00  INFO 38460 --- [springSecurityRoles] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
